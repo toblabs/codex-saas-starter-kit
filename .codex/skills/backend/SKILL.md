@@ -1,5 +1,5 @@
 ---
-name: architecture
+name: backend
 description: Implement or refine backend functionality for this repository
 ---
 
