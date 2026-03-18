@@ -1,161 +1,77 @@
-# AGENTS.md
+# AI Coding Starter Kit
 
-## Project Overview
-
-This repository is a **Next.js application starter kit** with an **AI-assisted, document-driven workflow**.
-
-Agents must work from repository artifacts, not from assumptions.  
-The core project state lives in:
-
-- `docs/PRD.md`
-- `docs/ARCHITECTURE.md`
-- `features/INDEX.md`
-- `features/PROJ-*-*.md`
-
-Before implementing anything, always read the relevant artifact files first.
-
+A Next.js template with an AI-powered development workflow using specialized skills for Requirements, Architecture, Frontend, Backend, QA, and Deployment.
 
 ## Tech Stack
-
-### Frontend
-- **Framework:** Next.js 16 with App Router
-- **Language:** TypeScript
-- **Styling:** Tailwind CSS
-- **UI Library:** shadcn/ui
-- **Forms:** react-hook-form
-- **Validation:** Zod
-- **State:** React `useState` / Context API by default
-- **Testing:** follow existing repo setup; prefer component and integration tests where applicable
-
-### Backend
-- **Backend Platform:** Supabase (optional, but preferred when backend is needed)
-- **Database:** PostgreSQL via Supabase
-- **Auth / Storage / Realtime:** Supabase services
-- **Validation:** Zod for runtime validation
-- **Security Model:** prefer Supabase RLS policies for data access control
-
-### Deployment / Infra
-- **Deployment Target:** Vercel
-- **Package Manager / Scripts:** use the repo's existing npm scripts
-- **Environment File:** `.env.local` for local development
-
-
-## Technology Rules
-
-These technology choices are **intentional defaults**, not suggestions.
-
-- Use **Next.js App Router** patterns, not Pages Router patterns, unless the repo already contains a valid exception.
-- Use **TypeScript** for all new application code.
-- Use **Tailwind CSS** for styling.
-- Use **shadcn/ui first** for UI work.
-- Use **Zod** for runtime validation.
-- Use **react-hook-form** for forms that need validation and structured handling.
-- Use **Supabase** when backend, database, auth, storage, or realtime features are required.
-- Target **Vercel**-compatible deployment decisions.
-
-Do **not** introduce alternative core technologies without a clear repository-level reason.
-
-
-## Rules Integration
-
-This repository originally uses dedicated rules files. Their intent must remain enforced in Codex:
-
-### General rules
-- Always read a file before modifying it.
-- Never assume file contents from memory.
-- Verify real import paths, routes, component names, and APIs by reading the code.
-- Keep feature tracking files synchronized with implementation progress.
-
-### Frontend rules
-- Prefer **existing shadcn/ui components** over custom replacements.
-- Do **not** recreate installed shadcn/ui components.
-- Reuse existing UI primitives and patterns before adding new abstractions.
-- Keep styling consistent with Tailwind and the current design language.
-
-### Backend rules
-- Prefer **Supabase-aligned backend design** when backend work is needed.
-- Think in terms of schema, validation, queries, and RLS where applicable.
-- Keep data access and validation explicit and reviewable.
-
-### Security rules
-- Never hardcode secrets.
-- Respect environment variable boundaries.
-- Consider auth, authorization, security headers, and safe data handling in backend and deployment work.
-- Prefer safe defaults over convenience shortcuts.
-
+- **Framework:** Next.js 16 (App Router), TypeScript
+- **Styling:** Tailwind CSS + shadcn/ui
+- **Backend:** Supabase (PostgreSQL + Auth + Storage) - optional
+- **Deployment:** Vercel
+- **Validation:** Zod + react-hook-form
+- **State:** React useState / Context API
 
 ## Project Structure
-
-### Important folders
-
-- `src/app/` — Next.js App Router pages and layouts
-- `src/components/` — application components
-- `src/components/ui/` — shadcn/ui components; reuse these first
-- `src/hooks/` — custom React hooks
-- `src/lib/` — shared utilities such as `utils.ts` and Supabase helpers
-- `features/` — feature specs and feature tracking
-- `docs/` — PRD, architecture, and production documentation
-
+```text
+src/
+  app/                 Pages (Next.js App Router)
+  components/
+    ui/                shadcn/ui components (NEVER recreate these)
+  hooks/               Custom React hooks
+  lib/                 Utilities (supabase.ts, utils.ts)
+features/
+  PROJ-X-name.md       Feature specifications
+  INDEX.md             Feature status overview
+docs/
+  PRD.md               Product Requirements Document
+  production/          Production guides (Sentry, security, performance)
+  features/
+    PROJ-X-name.md     Feature specifications
+    INDEX.md           Feature status overview
+.agents/
+  skills/              Codex skills
+```
 
 ## Development Workflow
+1. `/requirements` - Create feature spec from idea
+2. `/architecture` - Design tech architecture (PM-friendly, no code)
+3. `/frontend` - Build UI components (shadcn/ui first)
+4. `/backend` - Build APIs, database, RLS policies
+5. `/qa` - Test against acceptance criteria + security audit
+6. `/deploy` - Deploy to Vercel + production-ready checks
 
-### 1. Requirements
-A feature starts as a specification in `features/PROJ-X-name.md`.
+## Feature Tracking
+All features are tracked in `docs/features/INDEX.md`. Every skill should read it at the start and update it when needed.
+Feature specs live in `docs/features/PROJ-X-name.md`.
 
-### 2. Architecture
-Architecture and technical approach are reviewed before implementation.  
-High-level design belongs in `docs/ARCHITECTURE.md` and, where useful, inside the feature spec.
+## Key Conventions
+- **Feature IDs:** `PROJ-1`, `PROJ-2`, ... (sequential)
+- **Commits:** `feat(PROJ-X): description`, `fix(PROJ-X): description`
+- **Single Responsibility:** One feature per spec file
+- **shadcn/ui first:** Never create custom versions of installed shadcn components
+- **Human-in-the-loop:** Workflows include user approval checkpoints
+- **Windows-first:** Prefer cross-platform commands or PowerShell-friendly equivalents when suggesting shell commands
 
-### 3. Frontend
-Frontend implementation must follow:
-- the feature spec
-- the architecture
-- the repository's Next.js + Tailwind + shadcn/ui conventions
+## Rules
+### New Project Detection (mandatory)
+Before starting any work:
+1. Read `docs/PRD.md` to check whether the project has been initialized.
+2. Read `docs/features/INDEX.md` to see whether any features already exist.
 
-### 4. Backend
-Backend implementation must follow:
-- the feature spec
-- the architecture
-- Supabase / PostgreSQL / Zod / RLS conventions where applicable
+If `docs/PRD.md` still contains placeholder text like `_Describe what you are building_` and `docs/features/INDEX.md` is still empty:
+- Do not write code or skip ahead to implementation.
+- Start with `/requirements`.
 
-### 5. QA
-Validate implementation against acceptance criteria and check for regressions.
+### Always read, never guess
+- Read a file before modifying it.
+- Verify import paths, routes, and existing patterns by reading the codebase.
+- Re-read `docs/features/INDEX.md` and the referenced feature spec before each workflow step.
 
-### 6. Deploy
-Deployment decisions must remain compatible with Vercel and production-ready setup guidance.
+### Workflow discipline
+- Keep state in files, not in chat memory.
+- Update the relevant feature spec and `docs/features/INDEX.md` as work progresses.
+- Suggest the next workflow step when a skill completes.
 
-
-## Read Before Writing
-
-Before making changes, always read:
-
-1. `docs/PRD.md`
-2. `docs/ARCHITECTURE.md`
-3. `features/INDEX.md`
-4. the relevant feature spec
-5. the files you are about to modify
-
-
-## Reuse Before Creating
-
-Before creating new code:
-- search for an existing component, hook, utility, route, or schema
-- extend existing code when appropriate
-- especially check `src/components/ui/` before creating custom UI
-
-
-## Feature Tracking Rules
-
-- Every feature must exist in `features/INDEX.md`
-- Every feature must have exactly one spec file
-- Keep feature status current
-- Keep documentation in sync with implementation
-
-
-## Commands
-
-Use the existing repository scripts:
-
+## Build & Test Commands
 ```bash
 npm run dev
 npm run build
@@ -163,14 +79,17 @@ npm run lint
 npm run start
 ```
 
-Do not invent commands that are not present in the project.
+## Product Context
+@docs/PRD.md
 
+## Feature Overview
+@features/INDEX.md
 
-## Agent Behaviour
-
-Agents must:
-- be artifact-driven
-- be stack-explicit
-- preserve the repository's technology choices
-- avoid speculative refactors
-- prefer minimal, safe, reviewable changes
+## Available Skills
+- `.agents/skills/requirements`
+- `.agents/skills/architecture`
+- `.agents/skills/frontend`
+- `.agents/skills/backend`
+- `.agents/skills/qa`
+- `.agents/skills/deploy`
+- `.agents/skills/help`

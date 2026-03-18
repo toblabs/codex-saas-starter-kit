@@ -59,7 +59,10 @@ The repository assumes the following stack:
     ├── AGENTS.md
     ├── docs
     │   ├── PRD.md
-    │   └── ARCHITECTURE.md
+    │   ├── features
+    |   │   ├── INDEX.md
+    |   │   └── PROJ-X-feature.md
+    │   └── production
     │
     ├── features
     │   ├── INDEX.md
@@ -105,9 +108,9 @@ Track them in:
 
 ## 3. Architecture
 
-Document the system design in:
+Document the tech design in:
 
-`docs/ARCHITECTURE.md`
+`features/PROJ-X-feature-name.md`
 
 ## 4. Implementation
 
